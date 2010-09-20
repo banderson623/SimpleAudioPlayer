@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Canvas Loading Demo Page</title>
+	
+</head>
+
+<body>
+  
+<script type="text/javascript" charset="utf-8">
+    function getLoading(context, bars, center, innerRadius, size, color) {
+    var animating = true,
+        currentOffset = 0;
+  
+    function makeRGBA(){
+        return "rgba(" + [].slice.call(arguments, 0).join(",") + ")";
+    }
+    function drawBlock(ctx, barNo){
+        ctx.fillStyle = makeRGBA(color.red, color.green, color.blue, (bars+1-barNo)/(bars+1));
+        ctx.fillRect(-size.width/2, 0, size.width, size.height);
+    }
+    function calculateAngle(barNo){
+        return 2 * barNo * Math.PI / bars;
+    }
+    function calculatePosition(barNo){
+        angle = calculateAngle(barNo);
+        return {
+            y: (innerRadius * Math.cos(-angle)),
+            x: (innerRadius * Math.sin(-angle)),
+            angle: angle
+        };
+    }
+    function draw(ctx, offset) {
+        clearFrame(ctx);
+        ctx.save();
+        ctx.translate(center.x, center.y);
+        for(var i = 0; i<bars; i++){
+            var curbar = (offset+i) % bars,
+                pos = calculatePosition(curbar);
+            ctx.save();
+            ctx.translate(pos.x, pos.y);
+            ctx.rotate(pos.angle);
+            drawBlock(context, i);
+            ctx.restore();
+        }
+        ctx.restore();
+    }
+    function clearFrame(ctx) {
+        ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+    }
+    function nextAnimation(){
+        if (!animating) {
+            return;
+        };
+        currentOffset = (currentOffset + 1) % bars;
+        draw(context, currentOffset);
+        setTimeout(nextAnimation, 50);
+    }
+    nextAnimation(0);
+    return {
+        stop: function (){
+            animating = false;
+            clearFrame(context);
+        },
+        start: function (){
+            animating = true;
+            nextAnimation(0);
+        }
+    };
+    }
+    
+      var canvas = document.createElement("canvas");
+      canvas.width= 200;
+      canvas.height = 200;
+      canvas.style.cssText="position:absolute; top:100px; left:100px; background:#141E26;";
+      document.body.appendChild(canvas);
+      var controller = getLoading(canvas.getContext("2d"), 30, {x:100, y:100}, 15, {width: 2, height:10}, {red: 110, green: 123, blue: 139});
+
+      var button1 = document.createElement("input");
+      button1.value="stop";
+      button1.type="button";
+      button1.onclick = function (){
+          controller.stop();
+      };
+      document.body.appendChild(button1);
+
+      var button2 = document.createElement("input");
+      button2.value="start";
+      button2.type = "button";
+      button2.onclick = function (){
+          controller.start();
+      };
+      document.body.appendChild(button2);
+
+</script>
+
+</body>
+</html>

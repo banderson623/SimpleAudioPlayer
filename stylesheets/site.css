@@ -1,0 +1,278 @@
+/* @group YUI-Reset */
+
+/*From YUI-Reset, ripped off*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { border:0;
+}
+
+/* @end */
+
+/* - The main styles ------------*/
+
+body{
+  font-family:Helvetica, Arial, sans-serif;
+  text-align:center;
+  background:#fff;
+}
+
+body.playing {
+  background:url('../images/background.gif') repeat-x #fff;
+}
+
+
+#container {
+  width:960px;
+  margin:0 auto;
+  text-align:left;
+  position:relative
+}
+
+/* @group Header */
+
+h1{
+  font-size: 32pt;
+  color: #0D0000;
+  margin-top: 40px;
+}
+
+form#search_form{
+  position: absolute;
+  right:0;
+  top:25px;
+  font-size: 14pt;
+}
+
+input#search {
+  font-size: 1em;
+}
+
+input.default {
+  color: #ccc;
+}
+
+/* @end */
+
+/* @group Player */
+
+div#player {
+  position: absolute;
+  top: 120px;
+  height: 210px;
+  //border: 1px solid yellow;
+  overflow: hidden;
+  text-shadow: #141e26 0px 0px 1px;
+}
+
+#player h2#current_name {
+  color:#D9A60D;
+  font-size: 30pt;
+  margin-top: 17pt;
+}
+#player span#current_date{
+  font-size: 10pt;
+  color: #6E7B8B;
+  margin-left: 1em;
+  font-weight: 100;
+}
+
+#player div#track{
+  height: 35px;
+  margin: 10px 0;
+  background: url('../images/track.gif') no-repeat;
+  position: relative;
+  width: 873px;
+}
+
+#player div#track div#handle {
+  position: absolute;
+  top: 8px;
+  left: 100px;
+  background: url('../images/handle.png') no-repeat;
+  height: 18px;
+  width: 18px;
+}
+
+#player #current_total_time {
+  margin-top: 13pt;
+  text-align:right;
+  color: #6E7B8B;
+  font-size: 11pt;
+  float: right; 
+}
+
+#player #current_description{
+  margin: 0px 0 10px 0;
+  color:#6E7B8B;
+  font-size: 11pt;
+  line-height: 16pt;
+}
+
+#player #current_time {
+  position: absolute;
+  top: 11pt;
+  right: 10px;
+  font-size: 32pt;
+  color: #fff;
+}
+
+
+#player #current_tags {
+  color: #375873;
+  font-size:9pt;
+  padding:1em 20px 0.3em;
+  background: url('../images/player_tag.gif') no-repeat bottom left;
+}
+
+#player #current_tags a{
+  padding: 0.2em;
+}
+
+#player #current_tags a:hover {
+  background: #1f2f3c;
+  color: #4a779c;
+}
+
+#player #current_controls {
+  position: absolute;
+  right: 8em;
+  top: 15px;
+  width: 100px;
+  ..border: 1px solid red;
+}
+
+#player #current_controls #playing{
+	float: left;
+	margin-top: 12px;
+}
+
+#player #current_controls a{
+  float: right;
+  display: block;
+  overflow: hidden;
+  text-indent: -9999em;
+  height: 50px; width:70px;
+  background: url('../images/player_play_pause.gif') no-repeat bottom right;
+}
+
+#player #current_controls a#pause{
+  background-position: top right;
+}
+
+/* @end */
+
+
+
+/* @group Recording Listings */
+
+/*#player + .recording {
+  margin-top: 365px;
+}*/
+
+#recordings {
+  margin-top: 365px;
+}
+
+.recording {
+  margin: 40px 0 30px 0;
+  position: relative;
+}
+
+.recording h2.name {
+  color:#0D0000;
+  font-size: 22pt;
+  padding-bottom: 0.3em;
+  border-bottom: 1px dotted #d2bca9;
+  width: 750px;
+}
+
+.recording h2 span.date_duration, 
+.recording h2 span.listened{
+  font-size: 10pt;
+  color: #D9A60D;
+  margin-left: 1em;
+  font-weight: 100;
+}
+
+.recording h2 span.listened{
+  padding-left: 20px;
+  color: #a6886d;
+  background:url('../images/listened.png') no-repeat left top;
+  padding-bottom: 3px;
+}
+
+.recording .description{
+  margin: 0.6em 0;
+  color:#594E45;
+  font-size: 10.5pt;
+  line-height: 15.5pt;
+  width: 750px;
+}
+
+.recording .tags {
+  color: #375873;
+  font-size:9pt;
+  padding:1em 20px 0.1em;
+  background: url('../images/tag.png') no-repeat bottom left;
+}
+
+.recording .tags a{
+  padding: 0.2em;
+}
+
+.recording .tags a:hover {
+  background: #d1effe;
+}
+
+.recording .controls {
+  float: right;
+}
+
+.recording .controls a {
+  display: block;
+  width: 64px; height: 64px;
+  overflow: hidden;
+  text-indent: -9999em;
+  position: absolute;
+  top:1.5em;
+  right: 20px;
+}
+.recording .controls a.play {
+  background: url('../images/recording_play.png') no-repeat
+}
+.recording .controls a.pause {
+  display: none;
+}
+
+/* @end */
+
+
+
+
+
