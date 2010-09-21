@@ -1,32 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>CC Audio Player</title>
-    <link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" charset="utf-8">
-    <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/cc_audio/cc_audio.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/cc_audio/audio_base.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/cc_audio/audio_element.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascripts/cc_audio/audio_flash.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" href="stylesheets/base.css" type="text/css" media="screen" title="no title" charset="utf-8">
-  </head>
-  <body>
-    <div id="content">
-      <div id="player">
-        <div id="transport">
-          <!-- <p id="time">00:00:00</p> -->
-          <a class="play_pause" href="#"><span class="hidden">Play/Pause</span></a>
-        </div>
-        <div id="progress">
-          <div class="handle"></div>
-          <p class="marker"></p>
-          <p class="marker" style="left:10%"></p>
-          <p class="marker" style="left:70%"></p>
-          <p class="marker" style="left:80%"></p>
-        </div>
-      </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/controls.js" type="text/javascript" charset="utf-8"></script>
+
+  <script src="javascripts/site.js" type="text/javascript" charset="utf-8"></script>
+
+	<title>Audio Player</title>
+</head>
+<body class="playing">
+<div id="container">
+  <h1>Ames/Des Moines City Church Audio</h1>
+  
+  <div id="player">
+    <h2 id="current_name">Track Title<span id="current_date">March 23rd, 2011</span></h2>
+    <p id="current_total_time">43 minutes</p>
+    
+    <div id="track">
+      <div id="handle"></div>      
     </div>
-  </body>
+    
+    
+    <p id="current_description">A 2 or 3 sentence description goes here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <p id="current_time">0:00</p>
+
+    <div id="current_controls">
+      <img src="images/player_playing.gif" id="playing" />
+      <a id="play">Play</a>
+      <a id="pause">Pause</a>
+    </div>
+  </div>
+  
+</div> <!-- container -->
+
+
+</body>
 </html>
