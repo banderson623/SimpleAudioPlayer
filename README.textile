@@ -1,0 +1,11 @@
+Simple Audio Player using:
+
+* Audio Element were possible for mp3 playback
+* Flash when unable to use mp3 playback in an audio element.
+* Custom Events
+
+Written with prototype/scriptaculous - thanks guys!
+
+Here is a screenshot
+
+!images/screen-shot.png!
