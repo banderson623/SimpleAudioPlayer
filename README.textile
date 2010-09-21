@@ -8,4 +8,4 @@ Written with prototype/scriptaculous - thanks guys!
 
 Here is a screenshot
 
-!images/screen-shot.png!
+!http://github.com/banderson623/SimpleAudioPlayer/blob/master/images/screen-shot.png!
