@@ -24,11 +24,15 @@ CCAudio.AudioElement = Class.create(CCAudio.Audio, {
       }.bind(this));
       
       this.audio_dom.observe('progress', function(e){
+        document.fire(CCAudio.Events.UPDATE_TOTAL_SECONDS, this.doGetDuration());
+        
         var audio = Event.element(e);
         this.percent_loaded = (audio.buffered.end(0) / audio.duration);
         this.updateAvailable('new load data')
+        document.fire(CCAudio.Events.UPDATE_AVAILABLE_SECONDS, audio.buffered.end(0));
         if(this.percent_loaded >= 1.0){
           this.setState('loaded');
+          document.fire(CCAudio.Events.UPDATE_TOTAL_SECONDS, this.doGetDuration());
         } 
       }.bind(this));
     }.bind(this));

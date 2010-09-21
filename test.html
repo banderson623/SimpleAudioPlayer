@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" charset="utf-8">
     <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/scriptaculous.js?load=slider" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/cc_audio/cc_audio.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/cc_audio/audio_base.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/cc_audio/audio_element.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascripts/cc_audio/audio_flash.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/cc_audio/audio_player_ui.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css" media="screen">
       p#at {
         color:#555;
@@ -37,6 +39,7 @@
     <button class="transport" onclick="document.fire('audio:request:pause');">Pause</button>
     <button class="transport" onclick="document.fire('audio:request:seekRelative','5');">5 sec &#x2192;</button>    
     <button class="transport" onclick="document.fire('audio:request:seekRelative','60');">1 min &#x2192; </button>    
+
     
     
     <div id="loader">
@@ -46,10 +49,22 @@
       <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/ephesians_four.mp3');">Ephesians 4 (Server)</button>
       <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/first_corinthians.mp3');">First Corinthians (Server)</button>
       <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/the_collection.mp3');">The Collection (Server)</button>
+    </div>
 
+    <div id="new-ui">
+      <h2>New UI:</h2>
+      
+      <p><a id="new_play" href="#">Play!</a></p>
+      <p id="new_clock"></p>
+      
+      <div style="width:500px; background:#aaa; height:6px; margin:auto 1px;" id="ui_track">
+        <div style="width:10px; height:10px; background:#444;" id="ui_handle"></div>      
+      </div>
+      
     </div>
 
     <script type="text/javascript" charset="utf-8">
+    
     
       document.observe('audio:ui:controls:enable', function(){
         CCAudio.debug("enabling controls");
@@ -68,6 +83,13 @@
     
       var a_player = CCAudio.Tests.canUseAudioElement() ? new CCAudio.AudioElement('eph4') : 
                                                           new CCAudio.AudioFlash('eph4');
+
+      a_player.enableTimedUIUpdates();
+                                                        
+      cc_ui = new CCAudio.AudioPlayerUI({play_pause:'new_play',
+                                         time:'new_clock',
+                                         track: 'ui_track',
+                                         handle: 'ui_handle'});
 
 
       $('audio_engine').update('Using: ' + a_player.getAudioClass());
@@ -89,7 +111,6 @@
     </script>
     
     <div id="eph4">
-          <!-- <audio id="eph4" src="./audio_sample/ephesians_four.mp3" type="audio/mp3;" ></audio> -->
     </div>
     
   </body>

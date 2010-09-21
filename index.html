@@ -5,14 +5,23 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" title="no title" charset="utf-8">
-  <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
+  <!-- <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
   <script src="javascripts/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
   <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
-  <script src="javascripts/controls.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/controls.js" type="text/javascript" charset="utf-8"></script> -->
 
-  <script src="javascripts/site.js" type="text/javascript" charset="utf-8"></script>
+  <!-- // <script src="javascripts/site.js" type="text/javascript" charset="utf-8"></script> -->
 
-	<title>Audio Player</title>
+  <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/scriptaculous.js?load=slider" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/cc_audio/cc_audio.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/cc_audio/audio_base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/cc_audio/audio_element.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/cc_audio/audio_flash.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/cc_audio/audio_player_ui.js" type="text/javascript" charset="utf-8"></script>
+
+	<title>CityChurch Audio Player</title>
 </head>
 <body class="playing">
 <div id="container">
@@ -25,21 +34,42 @@
     <div id="track">
       <div id="handle"></div>      
     </div>
-    
+    <div id="audio_engine"></div>
     
     <p id="current_description">A 2 or 3 sentence description goes here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
     <p id="current_time">0:00</p>
 
     <div id="current_controls">
-      <img src="images/player_playing.gif" id="playing" />
+      <!-- <img src="images/player_playing.gif" id="playing" /> -->
       <a id="play">Play</a>
-      <a id="pause">Pause</a>
     </div>
   </div>
   
+  <div id="loader">
+    <h2>Testing</h2>
+    <button onclick="document.fire('audio:request:source','./audio_samples/ephesians_four.mp3');">Ephesians 4 (Local)</button>
+    <button onclick="document.fire('audio:request:source','./audio_samples/first_corinthians.mp3');">First Corinthians (Local)</button>
+    <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/ephesians_four.mp3');">Ephesians 4 (Server)</button>
+    <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/first_corinthians.mp3');">First Corinthians (Server)</button>
+    <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/the_collection.mp3');">The Collection (Server)</button>
+  </div>
+  
+  
 </div> <!-- container -->
-
-
 </body>
+<script type="text/javascript" charset="utf-8">
+  var cc_player = CCAudio.Tests.canUseAudioElement() ? new CCAudio.AudioElement('audio_engine') : 
+                                                       new CCAudio.AudioFlash('audio_engine');
+
+  cc_player.enableTimedUIUpdates();
+  
+  cc_ui = new CCAudio.AudioPlayerUI({play_pause:'play',
+                                     time:'current_time',
+                                     track: 'track',
+                                     handle: 'handle',
+                                     total_time: 'current_total_time'});
+  
+  
+</script>
 </html>

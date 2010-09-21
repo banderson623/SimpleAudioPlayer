@@ -14,22 +14,24 @@ CCAudio.Audio = Class.create({
     state:          null,
     percent_loaded: 0.0,
     audio_dom:      null,
-    audio_container_dom: null,
+    audio_container_dom: null,  
+    
+    periodic_ui_updater: null,
     
     // this gets changed when enough data is loaded to play
     // the audio
     can_play:       false,
 
     // Interface ----------------------
-    doLoad:   function(){ CCAudio.debug("doLoad() implement this in " + this.getAudioClass());},
-    doPlay:   function(){ CCAudio.debug("doPlay() implement this in " + this.getAudioClass());},
-    doPause:  function(){ CCAudio.debug("doPause() implement this in " + this.getAudioClass());},
+    doLoad:   function(){  CCAudio.debug("doLoad() implement this in " + this.getAudioClass());},
+    doPlay:   function(){  CCAudio.debug("doPlay() implement this in " + this.getAudioClass());},
+    doPause:  function(){  CCAudio.debug("doPause() implement this in " + this.getAudioClass());},
     doSeekTo: function(v){ CCAudio.debug("doSeekTo("+v+") implement this in " + this.getAudioClass());},
 
     doSetSource: function(){ CCAudio.debug("doSetSource() implement this in " + this.getAudioClass());},
     
     doGetAt:  function(){ CCAudio.debug("doGetAt() implement this in " + this.getAudioClass());},
-    doGetAt:  function(){ CCAudio.debug("doGetAt() implement this in " + this.getAudioClass());},
+    // doGetAt:  function(){ CCAudio.debug("doGetAt() implement this in " + this.getAudioClass());},
     
     doGetDuration: function(){CCAudio.debug("doGetDuration() implement this in " + this.getAudioClass());},
     doSetup:  function(){},
@@ -37,16 +39,16 @@ CCAudio.Audio = Class.create({
     // Final ----------------------------------
 
     initialize: function(audio_container_dom) {
-      document.observe('audio:state:change', function(e){
+      document.observe(CCAudio.Events.STATE_CHANGE, function(e){
         CCAudio.debug("Caught State Change: " + e.eventName + " >> ("+ e.memo + ")");
       });
       
-      document.observe('audio:request:play',function(){this.play();}.bind(this));
-      document.observe('audio:request:pause',function(){this.pause();}.bind(this));
-      document.observe('audio:request:toggle',function(){this.playOrPause();}.bind(this));
-      document.observe('audio:request:source',function(e){this.setSource(e.memo);}.bind(this));
-      document.observe('audio:request:seekRelative',function(e){this.seekRelative(e.memo);}.bind(this));
-      
+      document.observe(CCAudio.Events.PLAY,function(){this.play();}.bind(this));
+      document.observe(CCAudio.Events.PAUSE,function(){this.pause();}.bind(this));
+      document.observe(CCAudio.Events.TOGGLE,function(){this.playOrPause();}.bind(this));
+      document.observe(CCAudio.Events.SET_SOURCE,function(e){this.setSource(e.memo);}.bind(this));
+      document.observe(CCAudio.Events.SEEK_RELATIVE,function(e){this.seekRelative(e.memo);}.bind(this));
+      document.observe(CCAudio.Events.SEEK_TO,function(e){this.seekTo(e.memo);}.bind(this));
       this.disableControls();
       this.setState('uninitialized');
       // Initialize here
@@ -98,7 +100,6 @@ CCAudio.Audio = Class.create({
       if(this.setState('playing') && this.isPlayable()){
         document.fire('audio:state:start_playing');
       }
-      
       this.doPlay();
     },
         
@@ -180,7 +181,7 @@ CCAudio.Audio = Class.create({
     seekRelative: function(relative_seconds){
       var time = parseInt(this.getAt()) + parseInt(relative_seconds);
       // if requesting negative time, just make it zero;
-      return this.doSeekTo(time >= 0 ? time : 0);
+      return this.seekTo(time >= 0 ? time : 0);
     },
     
     setState: function(state){
@@ -190,7 +191,8 @@ CCAudio.Audio = Class.create({
         this.state = state;
         document.fire("audio:state:entering:"+this.state, "from " + previous_state);
         document.fire("audio:state:"+this.state);
-        document.fire("audio:state:change", this.state);
+        document.fire(CCAudio.Events.STATE_CHANGE, this.state);
+        // console.log("fired -> " + "audio:state:"+this.state);
         this.updateAvailable("State changed to " + this.state);
         return true;
       }
@@ -200,7 +202,9 @@ CCAudio.Audio = Class.create({
     // Call this to generate an event that lets everyone know
     // UI might need to be refreshed...
     updateAvailable:function(reason){
-      document.fire("audio:ui:update", reason);
+      document.fire(CCAudio.Events.UI_UPDATABLE, reason);
+      // Want to update the time as often as we can.
+      document.fire(CCAudio.Events.UI_TIME_UPDATE, this.getAt());
     },
     
     disableControls: function(reason){
@@ -213,5 +217,14 @@ CCAudio.Audio = Class.create({
       this.updateAvailable();
     },
     
+    // Time updater
+    enableTimedUIUpdates: function(){
+      this.periodic_ui_updater = new PeriodicalExecuter(function(pe) {
+        if(this.isPlaying()){
+          document.fire(CCAudio.Events.UI_TIME_UPDATE, this.getAt());
+        }
+      }.bind(this), 0.5);
+      
+    }
             
 });

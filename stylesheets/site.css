@@ -149,21 +149,11 @@ div#player {
   background: url('../images/player_tag.gif') no-repeat bottom left;
 }
 
-#player #current_tags a{
-  padding: 0.2em;
-}
-
-#player #current_tags a:hover {
-  background: #1f2f3c;
-  color: #4a779c;
-}
-
 #player #current_controls {
   position: absolute;
   right: 8em;
   top: 15px;
   width: 100px;
-  ..border: 1px solid red;
 }
 
 #player #current_controls #playing{
@@ -180,7 +170,7 @@ div#player {
   background: url('../images/play_pause.gif') no-repeat bottom right;
 }
 
-#player #current_controls a#pause{
+#player #current_controls a.state_playing{
   background-position: top right;
 }
 
@@ -194,7 +184,7 @@ div#player {
   margin-top: 365px;
 }*/
 
-#recordings {
+/*#recordings {
   margin-top: 365px;
 }
 
@@ -275,3 +265,4 @@ div#player {
 
 
 
+*/

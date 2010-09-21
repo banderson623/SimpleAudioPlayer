@@ -7,6 +7,25 @@ var CCAudio = {
   Dom: {},
   Tests: {},
   
+  Events: {
+    PLAY:            'audio:request:play',
+    PAUSE:           'audio:request:pause',
+    TOGGLE:          'audio:request:toggle',
+    SET_SOURCE:      'audio:request:source',
+    SEEK_RELATIVE:   'audio:request:seekRelative',
+    SEEK_TO:         'audio:request:seekTo',
+    
+    STATE_CHANGE:     'audio:state:change',
+    STATE_PLAYING:    'audio:state:playing',
+    STATE_PAUSED:     'audio:state:paused',
+    
+    UI_UPDATABLE:     'audio:ui:update',
+    UI_TIME_UPDATE:   'audio:ui:time_update',
+    
+    UPDATE_TOTAL_SECONDS:     'audio:update:total_seconds',
+    UPDATE_AVAILABLE_SECONDS: 'audio:update:available_seconds',
+  },
+  
   debug: function(text){
     if(typeof('console') != 'undefined' && console != null &&
        typeof('console.log') != 'undefined' && console.log != null){
