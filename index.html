@@ -1,97 +1,96 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CC Audio Player</title>
+    <link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" charset="utf-8">
+    <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/cc_audio/cc_audio.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/cc_audio/audio_base.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/cc_audio/audio_element.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/cc_audio/audio_flash.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css" media="screen">
+      p#at {
+        color:#555;
+        margin:1em 0;
+        height:6em;
+      }
+      h2 {
+        margin-top:1em;
+        font-size:1.5em;
+      }
+    </style>
+  </head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<link rel="stylesheet" href="stylesheets/site.css" type="text/css" media="screen" title="no title" charset="utf-8">
-  <script src="javascripts/prototype.js" type="text/javascript" charset="utf-8"></script>
-  <script src="javascripts/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
-  <script src="javascripts/extensions.js" type="text/javascript" charset="utf-8"></script>
-  <script src="javascripts/controls.js" type="text/javascript" charset="utf-8"></script>
+  <body id="index" class="home">
+    <h1>Audio Player Engine Test</h1>
+    <div class="test_info">
+      <p id="audio_engine">...</p>
+      <p id="at">&nbsp;<br />...loading...<br />&nbsp;</p>
+    </div>
 
-  <script src="javascripts/site.js" type="text/javascript" charset="utf-8"></script>
-
-	<title>Audio Player</title>
-
-	<style type="text/css" media="screen">  
-	</style>
-</head>
-<body class="playing">
-<div id="container">
-  <h1>theWell Audio Library</h1>
-  <form id="search_form">
-    <label for="search">Audio Search</label><input name="search" id="search" />
-  </form>
-  
-  <div id="player">
-    <h2 id="current_name">True Joy<span id="current_date">January 9th, 2009</span></h2>
-    <p id="current_total_time">15 minutes</p>
+    <button class="transport" onclick="document.fire('audio:request:seekRelative','-60');">&#x2190; 1 min</button>    
+    <button class="transport" onclick="document.fire('audio:request:seekRelative','-5');">&#x2190; 5 sec</button>    
+    <button class="transport" onclick="document.fire('audio:request:play');" >Play</button>
+    <button class="transport" onclick="document.fire('audio:request:toggle');">Toggle</button>
+    <button class="transport" onclick="document.fire('audio:request:pause');">Pause</button>
+    <button class="transport" onclick="document.fire('audio:request:seekRelative','5');">5 sec &#x2192;</button>    
+    <button class="transport" onclick="document.fire('audio:request:seekRelative','60');">1 min &#x2192; </button>    
     
-    <div id="track">
-      <div id="handle"></div>      
+    
+    <div id="loader">
+      <h2>Load from: </h2>
+      <button onclick="document.fire('audio:request:source','./audio_samples/ephesians_four.mp3');">Ephesians 4 (Local)</button>
+      <button onclick="document.fire('audio:request:source','./audio_samples/first_corinthians.mp3');">First Corinthians (Local)</button>
+      <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/ephesians_four.mp3');">Ephesians 4 (Server)</button>
+      <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/first_corinthians.mp3');">First Corinthians (Server)</button>
+      <button onclick="document.fire('audio:request:source','http://www.waytohustle.com/beta_audio/audio_sample/the_collection.mp3');">The Collection (Server)</button>
+
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+    
+      document.observe('audio:ui:controls:enable', function(){
+        CCAudio.debug("enabling controls");
+        $$('button.transport').each(function(el){
+          el.disabled = false;
+        });
+      })
+      
+      document.observe('audio:ui:controls:disable', function(){
+        CCAudio.debug("disable controls");
+        $$('button.transport').each(function(el){
+          el.disabled = true;
+        });
+      })
+      
+    
+      var a_player = CCAudio.Tests.canUseAudioElement() ? new CCAudio.AudioElement('eph4') : 
+                                                          new CCAudio.AudioFlash('eph4');
+
+
+      $('audio_engine').update('Using: ' + a_player.getAudioClass());
+      document.observe('audio:ui:update', function(e){ui_update(); CCAudio.debug("UI Updated: " + e.memo)});
+                  
+      function ui_update(){
+        $('at').update((a_player.getPercentAt() * 100).toDecimalPrecision(1) + " % <br/>");
+        $('at').insert((a_player.getAt()).toDecimalPrecision(0) + " sec <br />");
+        $('at').insert(a_player.getAt().toTimeCode() + " timecode<br/>");
+        $('at').insert(a_player.getPercentLoaded().toDecimalPrecision(1) + "% ("+a_player.getSecondsLoaded().toTimeCode() + ") loaded<br/>");
+        $('at').insert(a_player.getState());
+      }
+      
+      new PeriodicalExecuter(function(pe) {
+        if(a_player.isPlaying()){
+          ui_update();
+        }
+      }, 0.25);
+    </script>
+    
+    <div id="eph4">
+          <!-- <audio id="eph4" src="./audio_sample/ephesians_four.mp3" type="audio/mp3;" ></audio> -->
     </div>
     
-    
-    <p id="current_description">What is Joy? When should we be joyful? How should we be joyful? Paul answers all of these in the first chapter of Philippians. True Joy is not circumstanical, nor strictly and emotion, its a heart attitude based on our love and experience with Christ.</p>
-    <p id="current_tags">
-      <a class="michael_sanchez">Michael Sanchez</a>,
-      <a class="philippians">Philippians</a>,
-      <a class="sunday_evening">Sunday Evening</a>
-    </p>
-
-    <p id="current_time">0:00</p>
-
-    <div id="current_controls">
-      <img src="images/player_playing.gif" id="playing" />
-      <a id="play">Play</a>
-      <a id="pause">Pause</a>
-    </div>
-  </div>
-  
-
- <div id="recordings">   
-
-  <div class="recording" id="recording_1">
-    <h2 class="name searchable">True Joy Part 2<span class="date_duration">January 15th, 2009 | 42 minutes</span> <span class="listened">You've listened to the first 15 minutes</span></h2>
-    
-    <p class="description searchable">What is Joy? When should we be joyful? How should we be joyful? Paul answers all of these in the first chapter of Philippians. True Joy is not circumstanical, nor strictly and emotion, its a heart attitude based on our love and experience with Christ.</p>
-    <p class="tags searchable">
-      <a class="michael_sanchez">Michael Sanchez</a>,
-      <a class="philippians">Philippians</a>,
-      <a class="sunday_evening">Sunday Evening</a>
-    </p>
-
-    <div class="controls">
-      <a class="play">Play</a>
-      <a class="pause">Pause</a>
-    </div>
-  </div>
-
-  <div class="recording" id="recording_2">
-    <h2 class="name searchable">Lasting Joy<span class="date_duration">December 15th, 2008 | 13 minutes</span></h2>
-
-    <p class="description searchable">Lasting character is a sample title I made so that I could see how well this scales with lots of information in it, its not really a teaching by Mike or anyone else at the Well.</p>
-    <p class="tags searchable">
-      <a class="sean_barber">Sean Barber</a>,
-      <a class="philippians">Philippians</a>,
-      <a class="sunday_evening">Sunday Evening</a>
-    </p>
-
-    <div class="controls">
-      <a class="play"></a>
-      <a class="pause" style="display:none;"><span>Pause</span></a>
-    </div>
-  </div>
-  
-</div> <!-- recordings -->
-  
-</div> <!-- container -->
-
-
-
-
-
-
-</body>
+  </body>
 </html>
