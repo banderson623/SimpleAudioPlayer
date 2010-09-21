@@ -1,31 +1,8 @@
-Number.prototype.toDecimalPrecision = function(number_of_decimal_places) {
-  var components = ("" + this).split('.')
-  if (components[0] == undefined) components[0] = "0";
-  if (components[1] == undefined) components[1] = "0";
-  return components[0] + '.' + components[1].substr(0,number_of_decimal_places)
-} 
-
-
-Number.prototype.toTimeCode = function(){
-  minutes = Math.floor(this/60.0);
-  seconds = Math.round(this - (minutes * 60.0));
-  if(seconds == 60) {
-    minutes+=1;
-    seconds = 0;
-  }
-  if((""+seconds).length == 1) seconds = "0"+seconds;
-  return minutes + ":" + seconds;
-  
-}
-
-
 document.observe("dom:loaded", function(){
-  form_labelizer();
   mock_slider();
   tagify();
   fake_play();
   fake_player_controls();
-  
   set_play_location();
   
 });
@@ -58,45 +35,12 @@ function form_labelizer(){
                              }};
       
       add_default(el);
-      el.observe('focus', function(){remove_default(this)});
-      el.observe('blur',  function(){add_default(this);});
-      el.observe('keydown', function(){do_search(this)});
-      el.observe('keyup', function(){do_search(this)});
     }
     
     
     
   });
 }
-
-function do_search(field){
-  // console.log("Field value '" + field.value + "'");
-  
-  var searchable = $$('div.recording .searchable');
-  var recordings = $$('div.recording');
-  var showing = [];
-  // var searching = field.value.toLowerCase().split(' ');
-  var search_string = field.value.toLowerCase();
-  
-  if(field.value.length <= 0){
-    $$('div.recording').invoke('show');
-  } else {
-    
-    // searching.each(function(search_string){
-      // console.log('searching for ' + search_string);
-      searchable.each(function(el){
-        //console.log("searching in " + el.tagName + " contents: " + el.innerHTML);
-        if(el.innerHTML.toLowerCase().include(search_string)){
-          showing.push(el.up('div.recording'));
-        }
-      });  
-    // });
-    recordings.each(function(el){
-      if(!showing.include(el)){el.hide();}
-    });
-  }
-}
-
 
 function update_current_time(value){
   $('current_time').update(value.toTimeCode());
@@ -108,9 +52,7 @@ function mock_slider(){
   window.s = new Control.Slider('handle', 'track',{
     range: $R(0,(15.0 * 60.0)),
     increment: 1,
-    // maximum: (15*60) - 100,
   });
-  // s.options.maximum = 15 * 60;
   s.options.onSlide = update_current_time
   s.options.onChange = update_current_time
 }

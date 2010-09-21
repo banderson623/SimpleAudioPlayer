@@ -85,7 +85,6 @@ div#player {
   position: absolute;
   top: 120px;
   height: 210px;
-  //border: 1px solid yellow;
   overflow: hidden;
   text-shadow: #141e26 0px 0px 1px;
 }
@@ -178,7 +177,7 @@ div#player {
   overflow: hidden;
   text-indent: -9999em;
   height: 50px; width:70px;
-  background: url('../images/player_play_pause.gif') no-repeat bottom right;
+  background: url('../images/play_pause.gif') no-repeat bottom right;
 }
 
 #player #current_controls a#pause{
