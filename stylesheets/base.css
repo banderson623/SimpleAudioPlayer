@@ -35,11 +35,74 @@ abbr,acronym { border:0;
 /* @end */
 
 /* - The main styles ------------*/
-
 body{
   font-family:Helvetica, Arial, sans-serif;
   text-align:center;
   background:#fff;
   border:0;
   padding:0;
+}
+
+span.hidden {
+	display:none;
+}
+
+#content {
+	width: 960px;
+	margin:0 auto;
+}
+
+#player {
+	position:relative;
+	background:#202A31;
+	color:#fff;
+}
+
+
+/*Where the play/pause and time is located*/
+#transport {
+	float:left;
+	position:relative;
+	width:85px;
+	height:50px;
+/*	background-color:#10161C;*/
+/*	background-color:#0D1114;*/
+	background-color:#141e26;
+}
+
+#transport a.play_pause {
+	position:absolute;
+	right:0;
+	display:block;
+	background:url('../images/play_pause.gif') no-repeat top center;
+	width:48px;
+	height:48px;
+}
+#transport a.play_pause:hover {
+	background-position: bottom;
+}
+
+
+#progress {
+	float:left;
+	position:relative;
+	width:875px;
+	height:50px;
+	background:url('../images/track.png') no-repeat center left #0D1114;
+	border-bottom:#202A31 1px solid;
+}
+
+#progress .handle,
+#progress .marker{
+	background:url('../images/handle.png') no-repeat;
+	width:18px;
+	height:18px;
+	position:absolute;
+	left:25%;
+	top:16px;
+}
+#progress .marker{
+	background-image:url('../images/marker-green.png');
+	top:22px;left:55px;
+	width:8px;height:8px;
 }
