@@ -58,7 +58,7 @@ CCAudio.AudioPlayerUI = Class.create({
     this.attachLoadingObservers();
     this.attachTotalTimeObserver();  
   },
-  
+    
   setTimeElement: function(el){
     this.time_element = $(el) || null;
     this.attachTimeElementObserver();
@@ -81,31 +81,32 @@ CCAudio.AudioPlayerUI = Class.create({
             this.can_update_time = true;
           }.bind(this));
 
-          this.handle_element.observe('mouseover',function(e){
-            this.track_control_updatable = false;
-          }.bind(this));
+          // this.handle_element.observe('mouseover',function(e){
+          //   this.track_control_updatable = false;
+          // }.bind(this));
 
           this.handle_element.observe('mousedown',function(e){
             // When dragging this thing around lets update the time too
             this.track_control_updatable = false;
+            // Request pause here...
           }.bind(this));
           
           
-          this.handle_element.observe('mousemove',function(e){
-            this.time_element.update(parseInt(this.track_control.value).toTimeCode());
-            console.log("trying to update to ",this.track_control.value, parseInt(this.track_control.value).toTimeCode())
-            this.can_update_time = false;
-          }.bind(this));
+          // this.handle_element.observe('mousemove',function(e){
+          //   this.time_element.update(parseInt(this.track_control.value).toTimeCode());
+          //   console.log("trying to update to ",this.track_control.value, parseInt(this.track_control.value).toTimeCode())
+          //   this.can_update_time = false;
+          // }.bind(this));
 
-          this.handle_element.observe('mouseout',function(e){
-            this.track_control_updatable = true;
-          }.bind(this));
+          // this.handle_element.observe('mouseout',function(e){
+          //   this.track_control_updatable = true;
+          // }.bind(this));
           
 
 
           document.observe(CCAudio.Events.UI_TIME_UPDATE, function(e){
             if(this.track_control_updatable){
-              this.track_control.setValue(parseInt(e.memo) + 1);
+              this.track_control.setValue(parseFloat(e.memo));
             }
            }.bind(this));
                       
@@ -154,7 +155,7 @@ CCAudio.AudioPlayerUI = Class.create({
     if(!this.time_element_observed && this.time_element != null &&  typeof(this.time_element) != "undefined"){
          document.observe(CCAudio.Events.UI_TIME_UPDATE, function(e){
            if(parseInt(e.memo) > 0 && this.can_update_time){
-             this.time_element.update((parseInt(e.memo) + 1).toTimeCode());
+             this.time_element.update(parseInt(e.memo).toTimeCode());
            }
          }.bind(this));
             
@@ -165,13 +166,11 @@ CCAudio.AudioPlayerUI = Class.create({
   attachTotalTimeObserver: function(){
     if(this.total_time_element != null &&  typeof(this.total_time_element) != "undefined"){
       document.observe(CCAudio.Events.UPDATE_TOTAL_SECONDS, function(e){
-        this.total_time_element.update(Math.round(this.total_length / 60) + " Minutes");
+        var minutes = Math.round(this.total_length / 60);
+        
+        this.total_time_element.update(minutes + " Minute" + (minutes != 1 ? "s" : ""));
       }.bind(this));      
     }
   }
-  
-  
-  
-  
   
 });

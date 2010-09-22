@@ -223,7 +223,7 @@ CCAudio.Audio = Class.create({
         if(this.isPlaying()){
           document.fire(CCAudio.Events.UI_TIME_UPDATE, this.getAt());
         }
-      }.bind(this), 0.5);
+      }.bind(this), 0.25);
       
     }
             
