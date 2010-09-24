@@ -80,16 +80,31 @@
         });
       })
       
-    
-      var a_player = CCAudio.Tests.canUseAudioElement() ? new CCAudio.AudioElement('eph4') : 
-                                                          new CCAudio.AudioFlash('eph4');
+      // Set the url to force an engine
+      var forced_param = window.location.href.match(/\engine=(.*)/);
+      if(typeof(forced_param) == 'undefined' || forced_param == null){
+        forced_param = '';
+      } else {
+        forced_param = forced_param[1];
+      }
+      switch(forced_param){
+      case 'element' : var a_player = new CCAudio.AudioElement('eph4'); 
+                       break;
+      case 'flash'   : var a_player = new CCAudio.AudioFlash('eph4'); 
+                       break;
+      default:
+        var a_player = CCAudio.Tests.canUseAudioElement() ? new CCAudio.AudioElement('eph4') : 
+                                                            new CCAudio.AudioFlash('eph4');
+      }                                                            
+      
+
 
       a_player.enableTimedUIUpdates();
                                                         
       cc_ui = new CCAudio.AudioPlayerUI({play_pause:'new_play',
-                                         time:'new_clock',
-                                         track: 'ui_track',
-                                         handle: 'ui_handle'});
+                                         time:      'new_clock',
+                                         track:     'ui_track',
+                                         handle:    'ui_handle'});
 
 
       $('audio_engine').update('Using: ' + a_player.getAudioClass());

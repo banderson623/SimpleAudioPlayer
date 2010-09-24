@@ -3,7 +3,7 @@
 
 // With dependency this should not ever happen
 if(typeof('CCAudio') == "undefined"){
-  var CCAudio = {AudioPlayer:null}
+  var CCAudio = {AudioPlayerUI:null}
 }
 
 // This controls all the user interface components involved with the
