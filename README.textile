@@ -5,6 +5,7 @@ Simple Audio Player using:
 * Custom Events
 
 Written with prototype/scriptaculous - thanks guys!
+It also uses nitfy player for a simple MIT licensed flash mp3 player.
 
 Here is a screenshot
 
